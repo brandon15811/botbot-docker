@@ -2,7 +2,6 @@
 THREADS='-j8'
 echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list
 apt-get update
-#TODO: Fix golang install
 bash -c "DEBIAN_FRONTEND=noninteractive apt-get -y install redis-server postgresql postgresql-contrib postgresql-server-dev-9.1 curl wget build-essential python2.7-dev git python-pip python-virtualenv golang-go sudo makepasswd expect"
 sudo -u postgres createuser -s -d -r root
 createuser -S -D -R -e botbot
