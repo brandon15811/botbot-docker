@@ -1,4 +1,5 @@
 #!/bin/bash
+set -ex
 service redis-server start
 service postgresql start
 
