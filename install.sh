@@ -1,6 +1,8 @@
 #!/bin/bash
+#Not suitable for use outside of docker
 set -xe
-THREADS='-j8'
+#Store directory where script was executed
+DIR=$PWD
 #Enable ubuntu universe repo
 echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list
 apt-get update
@@ -14,9 +16,9 @@ BOTBOTDB_PASS=$(makepasswd --chars=25)
 echo "ALTER USER botbot WITH PASSWORD '$BOTBOTDB_PASS';" | psql botbot
 #Needed by botbot
 echo "create extension hstore" | psql botbot
-mkdir /botbot
-cd /botbot && virtualenv botbot && source botbot/bin/activate
-cd /botbot && pip install -e git+https://github.com/BotBotMe/botbot-web.git#egg=botbot
+mkdir $DIR/botbot
+cd $DIR/botbot && virtualenv botbot && source botbot/bin/activate
+cd $DIR/botbot && pip install -e git+https://github.com/BotBotMe/botbot-web.git#egg=botbot
 cd $VIRTUAL_ENV/src/botbot && make $THREADS dependencies
 cd $VIRTUAL_ENV/src/botbot && cp .env.example .env
 sed -i "s/# DATABASE_URL=postgres:\/\/user:pass@localhost:5432\/name/DATABASE_URL=postgres:\/\/botbot:${BOTBOTDB_PASS}@localhost:5432\/botbot/" $VIRTUAL_ENV/src/botbot/.env
@@ -39,4 +41,4 @@ echo "Admin Username: admin"
 echo "Admin Password: ${BOTBOTADMIN_PASS}"
 #Uncomment this to listen on all interfaces
 #sed -i 's/\$WEB_PORT/0.0.0.0:\$WEB_PORT/' $VIRTUAL_ENV/src/botbot/Procfile
-cd $VIRTUAL_ENV/src/botbot && honcho start
+#cd $VIRTUAL_ENV/src/botbot && honcho start
