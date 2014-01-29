@@ -41,6 +41,10 @@ echo "expect \"Superuser created successfully.\"" >> $VIRTUAL_ENV/src/botbot/sup
 cd $VIRTUAL_ENV/src/botbot/ && expect superuser.expect
 echo "Admin Username: admin"
 echo "Admin Password: ${BOTBOTADMIN_PASS}"
-#Uncomment this to listen on all interfaces
-#sed -i 's/\$WEB_PORT/0.0.0.0:\$WEB_PORT/' $VIRTUAL_ENV/src/botbot/Procfile
+#Comment this to not listen on all interfaces
+sed -i 's/\$WEB_PORT/0.0.0.0:\$WEB_PORT/' $VIRTUAL_ENV/src/botbot/Procfile
 #cd $VIRTUAL_ENV/src/botbot && honcho start
+#Shut down gracefully
+service redis-server stop
+service postgresql stop
+sleep 5

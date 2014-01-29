@@ -26,14 +26,15 @@ fi
 #Set Django admin password
 BOTBOTADMIN_PASS=$(makepasswd --chars=25)
 #Use "expect" to set django superuser password
-echo '#!/usr/bin/expect' > $VIRTUAL_ENV/src/botbot/superuser.expect
-echo "spawn manage.py createsuperuser --username=admin --email=admin@host.local" >> $VIRTUAL_ENV/src/botbot/superuser.expect
-echo 'expect "Password:"' >> $VIRTUAL_ENV/src/botbot/superuser.expect
-echo "send \"${BOTBOTADMIN_PASS}\n\"" >> $VIRTUAL_ENV/src/botbot/superuser.expect
-echo "expect \"Password (again): \"" >> $VIRTUAL_ENV/src/botbot/superuser.expect
-echo "send \"${BOTBOTADMIN_PASS}\n\"" >> $VIRTUAL_ENV/src/botbot/superuser.expect
-echo "expect \"Superuser created successfully.\"" >> $VIRTUAL_ENV/src/botbot/superuser.expect
-cd $VIRTUAL_ENV/src/botbot/ && expect superuser.expect
+echo '#!/usr/bin/expect' > $VIRTUAL_ENV/src/botbot/superuserchange.expect
+echo "spawn manage.py changepassword admin" >> $VIRTUAL_ENV/src/botbot/superuserchange.expect
+echo "expect \"Changing password for user 'admin'"\" >> $VIRTUAL_ENV/src/botbot/superuserchange.expect
+echo 'expect "Password:"' >> $VIRTUAL_ENV/src/botbot/superuserchange.expect
+echo "send \"${BOTBOTADMIN_PASS}\n\"" >> $VIRTUAL_ENV/src/botbot/superuserchange.expect
+echo "expect \"Password (again): \"" >> $VIRTUAL_ENV/src/botbot/superuserchange.expect
+echo "send \"${BOTBOTADMIN_PASS}\n\"" >> $VIRTUAL_ENV/src/botbot/superuserchange.expect
+echo "expect \"Password changed successfully for user 'admin'\"" >> $VIRTUAL_ENV/src/botbot/superuserchange.expect
+cd $VIRTUAL_ENV/src/botbot/ && expect superuserchange.expect
 echo "Admin Username: admin"
 echo "Admin Password: ${BOTBOTADMIN_PASS}"
 
