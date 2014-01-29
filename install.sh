@@ -18,7 +18,7 @@ BOTBOTDB_PASS=$(makepasswd --chars=25)
 echo "ALTER USER botbot WITH PASSWORD '$BOTBOTDB_PASS';" | psql botbot
 #Needed by botbot
 echo "create extension hstore" | psql botbot
-mkdir $DIR/botbot
+mkdir -p $DIR/botbot
 cd $DIR/botbot && virtualenv botbot && source botbot/bin/activate
 cd $DIR/botbot && pip install -e git+https://github.com/BotBotMe/botbot-web.git#egg=botbot
 cd $VIRTUAL_ENV/src/botbot && make $THREADS dependencies
