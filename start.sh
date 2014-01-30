@@ -41,4 +41,4 @@ if [ ! -f /botbot/.firstrun ]; then
     echo "Admin Password: ${BOTBOTADMIN_PASS}"
     touch /botbot/.firstrun
 fi
-exec honcho start
+honcho start
